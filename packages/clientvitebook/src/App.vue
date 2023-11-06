@@ -28,9 +28,14 @@
           </template>
         </ul>
       </aside>
+  
+      <div   class="bulma-container bulma-column iframe-container" style="height: 100%;" >
+        <div class="iframe-container__wrapper">
+             <iframe id="iframe" height="100%" width="100%" src=""></iframe>
+        </div>
+      
 
-      <div class="bulma-container bulma-column" style="display: flex">
-        <iframe id="iframe" height="3300px" width="400px" src=""></iframe>
+     
       </div>
     </section>
   </div>
@@ -121,7 +126,16 @@ body,
 #app {
   min-height: 100%;
 }
-.footer {
-  margin-top: -12px;
+.iframe-container{
+  padding: 20px;
+  height: 100%;
 }
+.iframe-container__wrapper{
+  border: 2px solid;
+  width: 80%;
+  height: calc(100vh - 100px);
+  resize: both;
+  overflow: auto;
+}
+
 </style>
