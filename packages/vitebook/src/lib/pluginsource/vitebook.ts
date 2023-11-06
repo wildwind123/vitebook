@@ -1,7 +1,5 @@
 import { Plugin, normalizePath } from "vite";
 import path from "path";
-import md5 from "crypto-js/md5";
-import hmacSHA512 from "crypto-js/hmac-sha512";
 import {  parse } from "url";
 
 import queryString from "query-string";
@@ -10,6 +8,7 @@ import { Cfg, Template } from "./types";
 import {
   fileList,
   generateBookHtml,
+  generateStoryId,
   handleHost,
 } from "./helper";
 
@@ -33,17 +32,8 @@ export default function vitebook(cfg: Cfg): Plugin {
     } as Template,
   };
 
-  if (cfg != undefined) {
-    if (cfg.htmlTemplatePath != undefined) {
-      params.htmlTemplatePath = cfg.htmlTemplatePath;
-    }
-    if (cfg.scriptTemplatePath != undefined) {
-      params.scriptTemplatePath = cfg.scriptTemplatePath;
-    }
-  }
-
   const addStory = (story: Story) => {
-    const res = md5(hmacSHA512(story.fullPath, "")).toString();
+    const res = generateStoryId(story.fullPath);
     story.storyId = res;
     const storyRelativePath = story.fullPath.replace(params.root, "");
     story.storyRelativePath = storyRelativePath;
@@ -55,7 +45,7 @@ export default function vitebook(cfg: Cfg): Plugin {
     params.book[res] = story;
   };
 
-  const processBookStories = () => {
+  const fillBookStories = () => {
     const files = fileList(path.join(params.root, params.storiesPath));
     params.book = {};
     for (let i = 0; i < files.length; i++) {
@@ -74,7 +64,7 @@ export default function vitebook(cfg: Cfg): Plugin {
   };
 
   const removeStory = (story: Story) => {
-    const res = md5(hmacSHA512(story.fullPath, "")).toString();
+    const res = generateStoryId(story.fullPath);
     if (!params.book[res]) {
       return;
     }
@@ -96,10 +86,9 @@ export default function vitebook(cfg: Cfg): Plugin {
         return;
       }
       params.root = config.root;
-      processBookStories();
+      fillBookStories();
     },
     configureServer(server) {
-      // event if story added
       server.watcher.on("add", (file) => {
         if (!isBookFile(file)) {
           return;
@@ -141,6 +130,7 @@ export default function vitebook(cfg: Cfg): Plugin {
       });
       // set host info to config, for transform html
       server.middlewares.use((req, _res, next) => {
+        
         // @ts-ignore
         if (!server.config.___vitebook) {
           // @ts-ignore
