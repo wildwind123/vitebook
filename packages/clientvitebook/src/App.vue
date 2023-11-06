@@ -3,34 +3,7 @@
     <nav class="bulma-navbar bulma-has-shadow">
       <div class="bulma-container">
         <div class="bulma-navbar-start">
-          <a class="bulma-navbar-item"> Website </a>
-        </div>
-        <label for="menu-toggle" class="bulma-navbar-toggle">
-          <span></span>
-          <span></span>
-          <span></span>
-        </label>
-        <input type="checkbox" id="menu-toggle" class="bulma-is-hidden" />
-        <div class="bulma-navbar-right bulma-navbar-menu">
-          <a class="bulma-navbar-item bulma-is-tab bulma-is-hidden-tablet">
-            <span class="bulma-icon"><i class="fa fa-home"></i></span>
-            Home
-          </a>
-          <a class="bulma-navbar-item bulma-is-tab bulma-is-hidden-tablet">
-            <span class="bulma-icon"><i class="fa fa-table"></i></span>
-            Links
-          </a>
-          <a class="bulma-navbar-item bulma-is-tab bulma-is-hidden-tablet">
-            <span class="bulma-icon"><i class="fa fa-info"></i></span>
-            About
-          </a>
-
-          <a class="bulma-navbar-item bulma-is-tab bulma-is-active">
-            <span class="bulma-icon"><i class="fa fa-user"></i></span>
-          </a>
-          <a class="bulma-navbar-item bulma-is-tab">
-            <span class="bulma-icon"><i class="fa fa-sign-out"></i></span>
-          </a>
+          <a class="bulma-navbar-item"> ViteBook </a>
         </div>
       </div>
     </nav>
@@ -39,11 +12,15 @@
       <aside
         class="bulma-column bulma-is-2 bulma-is-narrow-mobile bulma-is-fullheight bulma-section bulma-is-hidden-mobile"
       >
-        <p class="bulma-menu-label bulma-is-hidden-touch">Navigation</p>
+        <p class="bulma-menu-label bulma-is-hidden-touch">Stories</p>
         <ul class="bulma-menu-list">
           <template v-for="story in bookStories">
-            <li>
-              <a @click.prevent="renderIframe(story.storyId)" :href="getStoryUrl(story.storyId)">
+            <li >
+              <a
+              :class="{['bulma-is-active']: story.storyId == selectedStoryIdComputed}"
+                @click.prevent="selectedStoryIdComputed = story.storyId"
+                :href="getStoryUrl(story.storyId)"
+              >
                 <span class="bulma-icon"><i class="fa fa-home"></i></span>
                 {{ getFileName(story.file) }}
               </a>
@@ -52,48 +29,71 @@
         </ul>
       </aside>
 
-      <div class="bulma-container bulma-column" style="display: flex;">
+      <div class="bulma-container bulma-column" style="display: flex">
         <iframe id="iframe" height="3300px" width="400px" src=""></iframe>
       </div>
     </section>
-
   </div>
 </template>
 <script lang="ts" setup>
-import { onMounted, ref } from "vue";
-import "#/style/bulma.css"
+import { computed, onMounted, ref } from "vue";
+import "#/style/bulma.css";
 
-type Story =  {
-    storyId: string;
-    file: string;
-  };
+type Story = {
+  storyId: string;
+  file: string;
+};
+
+const selectedStoryId = ref('')
+
+const selectedStoryIdComputed = computed({
+  // getter
+  get() {
+    selectedStoryId.value = localStorage.getItem("selected_story_id") ?? "";
+    return selectedStoryId.value;
+  },
+  // setter
+  set(newValue) {
+    selectedStoryId.value = newValue
+    localStorage.setItem("selected_story_id", newValue);
+    renderIframe(newValue);
+  },
+});
 
 const bookStories = ref<Story[]>([
-
+  {
+    file: "11",
+    storyId: "1111",
+  },
+  {
+    file: "222",
+    storyId: "asdf222a",
+  },
 ]);
 
 onMounted(() => {
-  setBookStories()
-})
+  setBookStories();
+  if (selectedStoryIdComputed.value != "" && selectedStoryIdComputed.value != null) {
+    renderIframe(selectedStoryIdComputed.value);
+  }
+});
 
 const setBookStories = () => {
-  const base64 = document.getElementById('json')?.textContent
-  if (base64 == '') {
-    return
+  const base64 = document.getElementById("json")?.textContent;
+  if (base64 == "") {
+    return;
   }
   try {
-    const parsedJson = atob(base64 ?? '')
-    const json = JSON.parse(atob(base64 ?? ''))
+    const parsedJson = atob(base64 ?? "");
+    const json = JSON.parse(atob(base64 ?? ""));
     if (!parsedJson) {
-      return
+      return;
     }
-  bookStories.value = json.book
-
-  } catch(e) {
-    console.log('empty story')
+    bookStories.value = json.book;
+  } catch (e) {
+    console.log("empty story");
   }
- 
-}
+};
 
 const getFileName = (path: string) => {
   const res = /([^\\|/]+)$/.exec(path);
@@ -103,14 +103,14 @@ const getFileName = (path: string) => {
   return res[1];
 };
 
-const renderIframe = (storyKey : string) => {
-  (document.getElementById('iframe') as HTMLIFrameElement).src =  getStoryUrl(storyKey)
-}
+const renderIframe = (storyKey: string) => {
+  (document.getElementById("iframe") as HTMLIFrameElement).src =
+    getStoryUrl(storyKey);
+};
 
 const getStoryUrl = (storyKey: string) => {
-  return document.location.origin.replace('book', `story.${storyKey}`)
-}
-
+  return document.location.origin.replace("book", `story.${storyKey}`);
+};
 </script>
 <style>
 html,

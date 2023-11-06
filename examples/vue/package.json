@@ -9,7 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "vite-plugin-vitebook": "^0.0.8",
+    "vite-plugin-vitebook": "workspace:^0.0.10",
     "vue": "^3.3.4"
   },
   "devDependencies": {
