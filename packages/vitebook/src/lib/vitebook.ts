@@ -3,7 +3,8 @@ import fs from "fs";
 import path from "path";
 import md5 from "crypto-js/md5";
 import hmacSHA512 from "crypto-js/hmac-sha512";
-import { fileURLToPath } from 'url';
+import { fileURLToPath, parse } from "url";
+import queryString from "query-string";
 
 const __dirname = path.dirname(fileURLToPath(new URL(import.meta.url)));
 
@@ -53,7 +54,7 @@ export default function vitebook(cfg: Cfg): Plugin {
 
   const addStory = (story: Story) => {
     const res = md5(hmacSHA512(story.fullPath, "")).toString();
-
+    story.storyId = res;
     const storyRelativePath = story.fullPath.replace(params.root, "");
     story.storyRelativePath = storyRelativePath;
 
@@ -63,19 +64,19 @@ export default function vitebook(cfg: Cfg): Plugin {
     story.storyFullPath = fullPath;
     params.book[res] = story;
 
-    if (fs.existsSync(story.storyFullPath)) {
-      return;
-    }
+    // if (fs.existsSync(story.storyFullPath)) {
+    //   return;
+    // }
 
-    fs.mkdirSync(story.storyFullPath, { recursive: true });
-    fs.writeFileSync(
-      path.join(story.storyFullPath, "index.html"),
-      story.getHtml()
-    );
-    fs.writeFileSync(
-      path.join(story.storyFullPath, "script.ts"),
-      story.getScript()
-    );
+    // fs.mkdirSync(story.storyFullPath, { recursive: true });
+    // fs.writeFileSync(
+    //   path.join(story.storyFullPath, "index.html"),
+    //   story.getHtml()
+    // );
+    // fs.writeFileSync(
+    //   path.join(story.storyFullPath, "script.ts"),
+    //   story.getScript()
+    // );
   };
 
   const processBookStories = () => {
@@ -101,7 +102,7 @@ export default function vitebook(cfg: Cfg): Plugin {
     if (!params.book[res]) {
       return;
     }
-    deleteDirectory(params.book[res].storyFullPath);
+    // deleteDirectory(params.book[res].storyFullPath);
     delete params.book[res];
   };
   const isBookFile = (filePath: string) => {
@@ -199,6 +200,7 @@ export default function vitebook(cfg: Cfg): Plugin {
                 };
                 items.push(story);
               }
+
               const obj = {
                 book: items,
               };
@@ -223,6 +225,36 @@ export default function vitebook(cfg: Cfg): Plugin {
         next();
       });
     },
+    transform(code, id, _options) {
+      if (!id.includes("story_html_script_id")) {
+        return {
+          code: code,
+        };
+      }
+
+      const parsedUrl = parse(id);
+      if (!parsedUrl.query) {
+        return {
+          code: code,
+        };
+      }
+      const queryParams = queryString.parse(parsedUrl.query);
+      if (!queryParams.story_html_script_id) {
+        return {
+          code: code,
+        };
+      }
+      if (!params.book[queryParams.story_html_script_id as string]) {
+        return {
+          code: code,
+        };
+      }
+      return {
+        code: params.book[
+          queryParams.story_html_script_id as string
+        ].getScript(),
+      };
+    },
   };
 }
 
@@ -246,6 +278,7 @@ const fileList = function (dir: string) {
 };
 
 class Story {
+  public storyId = "";
   public storyFullPath = "";
   public storyRelativePath = "";
   public fullPath: string = "";
@@ -272,7 +305,7 @@ class Story {
     var data = fs.readFileSync(this.htmlTemplatePath.fullPath, "utf-8");
     return data.replace(
       this.htmlTemplatePath.replace,
-      path.join(this.storyFullPath, "script.ts")
+      `${this.htmlTemplatePath.replace}?story_html_script_id=${this.storyId}`
     );
   }
 
