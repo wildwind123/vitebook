@@ -1,10 +1,10 @@
 var we = Object.defineProperty;
-var Se = (r, e, t) => e in r ? we(r, e, { enumerable: !0, configurable: !0, writable: !0, value: t }) : r[e] = t;
-var Z = (r, e, t) => (Se(r, typeof e != "symbol" ? e + "" : e, t), t);
-import { normalizePath as Pe } from "vite";
-import ur from "fs";
+var Pe = (r, e, t) => e in r ? we(r, e, { enumerable: !0, configurable: !0, writable: !0, value: t }) : r[e] = t;
+var Z = (r, e, t) => (Pe(r, typeof e != "symbol" ? e + "" : e, t), t);
+import { normalizePath as Se } from "vite";
 import ar from "path";
 import { fileURLToPath as Fe, parse as Be } from "url";
+import ur from "fs";
 var X = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : typeof global < "u" ? global : typeof self < "u" ? self : {};
 function Jr(r) {
   return r && r.__esModule && Object.prototype.hasOwnProperty.call(r, "default") ? r.default : r;
@@ -52,7 +52,7 @@ function xr() {
             p = je;
           } catch {
           }
-        var h = function() {
+        var l = function() {
           if (p) {
             if (typeof p.getRandomValues == "function")
               try {
@@ -66,14 +66,14 @@ function xr() {
               }
           }
           throw new Error("Native crypto module could not be used to get secure random number.");
-        }, x = Object.create || function() {
-          function c() {
+        }, u = Object.create || function() {
+          function s() {
           }
-          return function(u) {
+          return function(x) {
             var v;
-            return c.prototype = u, v = new c(), c.prototype = null, v;
+            return s.prototype = x, v = new s(), s.prototype = null, v;
           };
-        }(), C = {}, i = C.lib = {}, a = i.Base = function() {
+        }(), H = {}, i = H.lib = {}, a = i.Base = function() {
           return {
             /**
              * Creates a new object that inherits from this object.
@@ -93,11 +93,11 @@ function xr() {
              *         }
              *     });
              */
-            extend: function(c) {
-              var u = x(this);
-              return c && u.mixIn(c), (!u.hasOwnProperty("init") || this.init === u.init) && (u.init = function() {
-                u.$super.init.apply(this, arguments);
-              }), u.init.prototype = u, u.$super = this, u;
+            extend: function(s) {
+              var x = u(this);
+              return s && x.mixIn(s), (!x.hasOwnProperty("init") || this.init === x.init) && (x.init = function() {
+                x.$super.init.apply(this, arguments);
+              }), x.init.prototype = x, x.$super = this, x;
             },
             /**
              * Extends this object and runs the init method.
@@ -112,8 +112,8 @@ function xr() {
              *     var instance = MyType.create();
              */
             create: function() {
-              var c = this.extend();
-              return c.init.apply(c, arguments), c;
+              var s = this.extend();
+              return s.init.apply(s, arguments), s;
             },
             /**
              * Initializes a newly created object.
@@ -140,10 +140,10 @@ function xr() {
              *         field: 'value'
              *     });
              */
-            mixIn: function(c) {
-              for (var u in c)
-                c.hasOwnProperty(u) && (this[u] = c[u]);
-              c.hasOwnProperty("toString") && (this.toString = c.toString);
+            mixIn: function(s) {
+              for (var x in s)
+                s.hasOwnProperty(x) && (this[x] = s[x]);
+              s.hasOwnProperty("toString") && (this.toString = s.toString);
             },
             /**
              * Creates a copy of this object.
@@ -158,7 +158,7 @@ function xr() {
               return this.init.prototype.extend(this);
             }
           };
-        }(), S = i.WordArray = a.extend({
+        }(), w = i.WordArray = a.extend({
           /**
            * Initializes a newly created word array.
            *
@@ -171,8 +171,8 @@ function xr() {
            *     var wordArray = CryptoJS.lib.WordArray.create([0x00010203, 0x04050607]);
            *     var wordArray = CryptoJS.lib.WordArray.create([0x00010203, 0x04050607], 6);
            */
-          init: function(c, u) {
-            c = this.words = c || [], u != o ? this.sigBytes = u : this.sigBytes = c.length * 4;
+          init: function(s, x) {
+            s = this.words = s || [], x != o ? this.sigBytes = x : this.sigBytes = s.length * 4;
           },
           /**
            * Converts this word array to a string.
@@ -187,8 +187,8 @@ function xr() {
            *     var string = wordArray.toString();
            *     var string = wordArray.toString(CryptoJS.enc.Utf8);
            */
-          toString: function(c) {
-            return (c || B).stringify(this);
+          toString: function(s) {
+            return (s || B).stringify(this);
           },
           /**
            * Concatenates a word array to this word array.
@@ -201,17 +201,17 @@ function xr() {
            *
            *     wordArray1.concat(wordArray2);
            */
-          concat: function(c) {
-            var u = this.words, v = c.words, g = this.sigBytes, m = c.sigBytes;
+          concat: function(s) {
+            var x = this.words, v = s.words, g = this.sigBytes, _ = s.sigBytes;
             if (this.clamp(), g % 4)
-              for (var F = 0; F < m; F++) {
+              for (var F = 0; F < _; F++) {
                 var T = v[F >>> 2] >>> 24 - F % 4 * 8 & 255;
-                u[g + F >>> 2] |= T << 24 - (g + F) % 4 * 8;
+                x[g + F >>> 2] |= T << 24 - (g + F) % 4 * 8;
               }
             else
-              for (var O = 0; O < m; O += 4)
-                u[g + O >>> 2] = v[O >>> 2];
-            return this.sigBytes += m, this;
+              for (var O = 0; O < _; O += 4)
+                x[g + O >>> 2] = v[O >>> 2];
+            return this.sigBytes += _, this;
           },
           /**
            * Removes insignificant bits.
@@ -221,8 +221,8 @@ function xr() {
            *     wordArray.clamp();
            */
           clamp: function() {
-            var c = this.words, u = this.sigBytes;
-            c[u >>> 2] &= 4294967295 << 32 - u % 4 * 8, c.length = n.ceil(u / 4);
+            var s = this.words, x = this.sigBytes;
+            s[x >>> 2] &= 4294967295 << 32 - x % 4 * 8, s.length = n.ceil(x / 4);
           },
           /**
            * Creates a copy of this word array.
@@ -234,8 +234,8 @@ function xr() {
            *     var clone = wordArray.clone();
            */
           clone: function() {
-            var c = a.clone.call(this);
-            return c.words = this.words.slice(0), c;
+            var s = a.clone.call(this);
+            return s.words = this.words.slice(0), s;
           },
           /**
            * Creates a word array filled with random bytes.
@@ -250,12 +250,12 @@ function xr() {
            *
            *     var wordArray = CryptoJS.lib.WordArray.random(16);
            */
-          random: function(c) {
-            for (var u = [], v = 0; v < c; v += 4)
-              u.push(h());
-            return new S.init(u, c);
+          random: function(s) {
+            for (var x = [], v = 0; v < s; v += 4)
+              x.push(l());
+            return new w.init(x, s);
           }
-        }), _ = C.enc = {}, B = _.Hex = {
+        }), m = H.enc = {}, B = m.Hex = {
           /**
            * Converts a word array to a hex string.
            *
@@ -269,9 +269,9 @@ function xr() {
            *
            *     var hexString = CryptoJS.enc.Hex.stringify(wordArray);
            */
-          stringify: function(c) {
-            for (var u = c.words, v = c.sigBytes, g = [], m = 0; m < v; m++) {
-              var F = u[m >>> 2] >>> 24 - m % 4 * 8 & 255;
+          stringify: function(s) {
+            for (var x = s.words, v = s.sigBytes, g = [], _ = 0; _ < v; _++) {
+              var F = x[_ >>> 2] >>> 24 - _ % 4 * 8 & 255;
               g.push((F >>> 4).toString(16)), g.push((F & 15).toString(16));
             }
             return g.join("");
@@ -289,12 +289,12 @@ function xr() {
            *
            *     var wordArray = CryptoJS.enc.Hex.parse(hexString);
            */
-          parse: function(c) {
-            for (var u = c.length, v = [], g = 0; g < u; g += 2)
-              v[g >>> 3] |= parseInt(c.substr(g, 2), 16) << 24 - g % 8 * 4;
-            return new S.init(v, u / 2);
+          parse: function(s) {
+            for (var x = s.length, v = [], g = 0; g < x; g += 2)
+              v[g >>> 3] |= parseInt(s.substr(g, 2), 16) << 24 - g % 8 * 4;
+            return new w.init(v, x / 2);
           }
-        }, w = _.Latin1 = {
+        }, P = m.Latin1 = {
           /**
            * Converts a word array to a Latin1 string.
            *
@@ -308,9 +308,9 @@ function xr() {
            *
            *     var latin1String = CryptoJS.enc.Latin1.stringify(wordArray);
            */
-          stringify: function(c) {
-            for (var u = c.words, v = c.sigBytes, g = [], m = 0; m < v; m++) {
-              var F = u[m >>> 2] >>> 24 - m % 4 * 8 & 255;
+          stringify: function(s) {
+            for (var x = s.words, v = s.sigBytes, g = [], _ = 0; _ < v; _++) {
+              var F = x[_ >>> 2] >>> 24 - _ % 4 * 8 & 255;
               g.push(String.fromCharCode(F));
             }
             return g.join("");
@@ -328,12 +328,12 @@ function xr() {
            *
            *     var wordArray = CryptoJS.enc.Latin1.parse(latin1String);
            */
-          parse: function(c) {
-            for (var u = c.length, v = [], g = 0; g < u; g++)
-              v[g >>> 2] |= (c.charCodeAt(g) & 255) << 24 - g % 4 * 8;
-            return new S.init(v, u);
+          parse: function(s) {
+            for (var x = s.length, v = [], g = 0; g < x; g++)
+              v[g >>> 2] |= (s.charCodeAt(g) & 255) << 24 - g % 4 * 8;
+            return new w.init(v, x);
           }
-        }, y = _.Utf8 = {
+        }, b = m.Utf8 = {
           /**
            * Converts a word array to a UTF-8 string.
            *
@@ -347,9 +347,9 @@ function xr() {
            *
            *     var utf8String = CryptoJS.enc.Utf8.stringify(wordArray);
            */
-          stringify: function(c) {
+          stringify: function(s) {
             try {
-              return decodeURIComponent(escape(w.stringify(c)));
+              return decodeURIComponent(escape(P.stringify(s)));
             } catch {
               throw new Error("Malformed UTF-8 data");
             }
@@ -367,10 +367,10 @@ function xr() {
            *
            *     var wordArray = CryptoJS.enc.Utf8.parse(utf8String);
            */
-          parse: function(c) {
-            return w.parse(unescape(encodeURIComponent(c)));
+          parse: function(s) {
+            return P.parse(unescape(encodeURIComponent(s)));
           }
-        }, b = i.BufferedBlockAlgorithm = a.extend({
+        }, y = i.BufferedBlockAlgorithm = a.extend({
           /**
            * Resets this block algorithm's data buffer to its initial state.
            *
@@ -379,7 +379,7 @@ function xr() {
            *     bufferedBlockAlgorithm.reset();
            */
           reset: function() {
-            this._data = new S.init(), this._nDataBytes = 0;
+            this._data = new w.init(), this._nDataBytes = 0;
           },
           /**
            * Adds new data to this block algorithm's buffer.
@@ -391,8 +391,8 @@ function xr() {
            *     bufferedBlockAlgorithm._append('data');
            *     bufferedBlockAlgorithm._append(wordArray);
            */
-          _append: function(c) {
-            typeof c == "string" && (c = y.parse(c)), this._data.concat(c), this._nDataBytes += c.sigBytes;
+          _append: function(s) {
+            typeof s == "string" && (s = b.parse(s)), this._data.concat(s), this._nDataBytes += s.sigBytes;
           },
           /**
            * Processes available data blocks.
@@ -408,16 +408,16 @@ function xr() {
            *     var processedData = bufferedBlockAlgorithm._process();
            *     var processedData = bufferedBlockAlgorithm._process(!!'flush');
            */
-          _process: function(c) {
-            var u, v = this._data, g = v.words, m = v.sigBytes, F = this.blockSize, T = F * 4, O = m / T;
-            c ? O = n.ceil(O) : O = n.max((O | 0) - this._minBufferSize, 0);
-            var j = O * F, q = n.min(j * 4, m);
+          _process: function(s) {
+            var x, v = this._data, g = v.words, _ = v.sigBytes, F = this.blockSize, T = F * 4, O = _ / T;
+            s ? O = n.ceil(O) : O = n.max((O | 0) - this._minBufferSize, 0);
+            var j = O * F, q = n.min(j * 4, _);
             if (j) {
               for (var R = 0; R < j; R += F)
                 this._doProcessBlock(g, R);
-              u = g.splice(0, j), v.sigBytes -= q;
+              x = g.splice(0, j), v.sigBytes -= q;
             }
-            return new S.init(u, q);
+            return new w.init(x, q);
           },
           /**
            * Creates a copy of this object.
@@ -429,12 +429,12 @@ function xr() {
            *     var clone = bufferedBlockAlgorithm.clone();
            */
           clone: function() {
-            var c = a.clone.call(this);
-            return c._data = this._data.clone(), c;
+            var s = a.clone.call(this);
+            return s._data = this._data.clone(), s;
           },
           _minBufferSize: 0
         });
-        i.Hasher = b.extend({
+        i.Hasher = y.extend({
           /**
            * Configuration options.
            */
@@ -448,8 +448,8 @@ function xr() {
            *
            *     var hasher = CryptoJS.algo.SHA256.create();
            */
-          init: function(c) {
-            this.cfg = this.cfg.extend(c), this.reset();
+          init: function(s) {
+            this.cfg = this.cfg.extend(s), this.reset();
           },
           /**
            * Resets this hasher to its initial state.
@@ -459,7 +459,7 @@ function xr() {
            *     hasher.reset();
            */
           reset: function() {
-            b.reset.call(this), this._doReset();
+            y.reset.call(this), this._doReset();
           },
           /**
            * Updates this hasher with a message.
@@ -473,8 +473,8 @@ function xr() {
            *     hasher.update('message');
            *     hasher.update(wordArray);
            */
-          update: function(c) {
-            return this._append(c), this._process(), this;
+          update: function(s) {
+            return this._append(s), this._process(), this;
           },
           /**
            * Finalizes the hash computation.
@@ -490,10 +490,10 @@ function xr() {
            *     var hash = hasher.finalize('message');
            *     var hash = hasher.finalize(wordArray);
            */
-          finalize: function(c) {
-            c && this._append(c);
-            var u = this._doFinalize();
-            return u;
+          finalize: function(s) {
+            s && this._append(s);
+            var x = this._doFinalize();
+            return x;
           },
           blockSize: 16,
           /**
@@ -509,9 +509,9 @@ function xr() {
            *
            *     var SHA256 = CryptoJS.lib.Hasher._createHelper(CryptoJS.algo.SHA256);
            */
-          _createHelper: function(c) {
-            return function(u, v) {
-              return new c.init(v).finalize(u);
+          _createHelper: function(s) {
+            return function(x, v) {
+              return new s.init(v).finalize(x);
             };
           },
           /**
@@ -527,14 +527,14 @@ function xr() {
            *
            *     var HmacSHA256 = CryptoJS.lib.Hasher._createHmacHelper(CryptoJS.algo.SHA256);
            */
-          _createHmacHelper: function(c) {
-            return function(u, v) {
-              return new P.HMAC.init(c, v).finalize(u);
+          _createHmacHelper: function(s) {
+            return function(x, v) {
+              return new S.HMAC.init(s, v).finalize(x);
             };
           }
         });
-        var P = C.algo = {};
-        return C;
+        var S = H.algo = {};
+        return H;
       }(Math);
       return t;
     });
@@ -545,75 +545,75 @@ function xr() {
     r.exports = n(xr());
   })(X, function(t) {
     return function(n) {
-      var o = t, p = o.lib, h = p.WordArray, x = p.Hasher, C = o.algo, i = [];
+      var o = t, p = o.lib, l = p.WordArray, u = p.Hasher, H = o.algo, i = [];
       (function() {
-        for (var y = 0; y < 64; y++)
-          i[y] = n.abs(n.sin(y + 1)) * 4294967296 | 0;
+        for (var b = 0; b < 64; b++)
+          i[b] = n.abs(n.sin(b + 1)) * 4294967296 | 0;
       })();
-      var a = C.MD5 = x.extend({
+      var a = H.MD5 = u.extend({
         _doReset: function() {
-          this._hash = new h.init([
+          this._hash = new l.init([
             1732584193,
             4023233417,
             2562383102,
             271733878
           ]);
         },
-        _doProcessBlock: function(y, b) {
-          for (var P = 0; P < 16; P++) {
-            var c = b + P, u = y[c];
-            y[c] = (u << 8 | u >>> 24) & 16711935 | (u << 24 | u >>> 8) & 4278255360;
+        _doProcessBlock: function(b, y) {
+          for (var S = 0; S < 16; S++) {
+            var s = y + S, x = b[s];
+            b[s] = (x << 8 | x >>> 24) & 16711935 | (x << 24 | x >>> 8) & 4278255360;
           }
-          var v = this._hash.words, g = y[b + 0], m = y[b + 1], F = y[b + 2], T = y[b + 3], O = y[b + 4], j = y[b + 5], q = y[b + 6], R = y[b + 7], W = y[b + 8], D = y[b + 9], J = y[b + 10], N = y[b + 11], Q = y[b + 12], L = y[b + 13], Y = y[b + 14], K = y[b + 15], l = v[0], s = v[1], d = v[2], f = v[3];
-          l = S(l, s, d, f, g, 7, i[0]), f = S(f, l, s, d, m, 12, i[1]), d = S(d, f, l, s, F, 17, i[2]), s = S(s, d, f, l, T, 22, i[3]), l = S(l, s, d, f, O, 7, i[4]), f = S(f, l, s, d, j, 12, i[5]), d = S(d, f, l, s, q, 17, i[6]), s = S(s, d, f, l, R, 22, i[7]), l = S(l, s, d, f, W, 7, i[8]), f = S(f, l, s, d, D, 12, i[9]), d = S(d, f, l, s, J, 17, i[10]), s = S(s, d, f, l, N, 22, i[11]), l = S(l, s, d, f, Q, 7, i[12]), f = S(f, l, s, d, L, 12, i[13]), d = S(d, f, l, s, Y, 17, i[14]), s = S(s, d, f, l, K, 22, i[15]), l = _(l, s, d, f, m, 5, i[16]), f = _(f, l, s, d, q, 9, i[17]), d = _(d, f, l, s, N, 14, i[18]), s = _(s, d, f, l, g, 20, i[19]), l = _(l, s, d, f, j, 5, i[20]), f = _(f, l, s, d, J, 9, i[21]), d = _(d, f, l, s, K, 14, i[22]), s = _(s, d, f, l, O, 20, i[23]), l = _(l, s, d, f, D, 5, i[24]), f = _(f, l, s, d, Y, 9, i[25]), d = _(d, f, l, s, T, 14, i[26]), s = _(s, d, f, l, W, 20, i[27]), l = _(l, s, d, f, L, 5, i[28]), f = _(f, l, s, d, F, 9, i[29]), d = _(d, f, l, s, R, 14, i[30]), s = _(s, d, f, l, Q, 20, i[31]), l = B(l, s, d, f, j, 4, i[32]), f = B(f, l, s, d, W, 11, i[33]), d = B(d, f, l, s, N, 16, i[34]), s = B(s, d, f, l, Y, 23, i[35]), l = B(l, s, d, f, m, 4, i[36]), f = B(f, l, s, d, O, 11, i[37]), d = B(d, f, l, s, R, 16, i[38]), s = B(s, d, f, l, J, 23, i[39]), l = B(l, s, d, f, L, 4, i[40]), f = B(f, l, s, d, g, 11, i[41]), d = B(d, f, l, s, T, 16, i[42]), s = B(s, d, f, l, q, 23, i[43]), l = B(l, s, d, f, D, 4, i[44]), f = B(f, l, s, d, Q, 11, i[45]), d = B(d, f, l, s, K, 16, i[46]), s = B(s, d, f, l, F, 23, i[47]), l = w(l, s, d, f, g, 6, i[48]), f = w(f, l, s, d, R, 10, i[49]), d = w(d, f, l, s, Y, 15, i[50]), s = w(s, d, f, l, j, 21, i[51]), l = w(l, s, d, f, Q, 6, i[52]), f = w(f, l, s, d, T, 10, i[53]), d = w(d, f, l, s, J, 15, i[54]), s = w(s, d, f, l, m, 21, i[55]), l = w(l, s, d, f, W, 6, i[56]), f = w(f, l, s, d, K, 10, i[57]), d = w(d, f, l, s, q, 15, i[58]), s = w(s, d, f, l, L, 21, i[59]), l = w(l, s, d, f, O, 6, i[60]), f = w(f, l, s, d, N, 10, i[61]), d = w(d, f, l, s, F, 15, i[62]), s = w(s, d, f, l, D, 21, i[63]), v[0] = v[0] + l | 0, v[1] = v[1] + s | 0, v[2] = v[2] + d | 0, v[3] = v[3] + f | 0;
+          var v = this._hash.words, g = b[y + 0], _ = b[y + 1], F = b[y + 2], T = b[y + 3], O = b[y + 4], j = b[y + 5], q = b[y + 6], R = b[y + 7], W = b[y + 8], D = b[y + 9], J = b[y + 10], N = b[y + 11], Q = b[y + 12], L = b[y + 13], Y = b[y + 14], K = b[y + 15], h = v[0], c = v[1], d = v[2], f = v[3];
+          h = w(h, c, d, f, g, 7, i[0]), f = w(f, h, c, d, _, 12, i[1]), d = w(d, f, h, c, F, 17, i[2]), c = w(c, d, f, h, T, 22, i[3]), h = w(h, c, d, f, O, 7, i[4]), f = w(f, h, c, d, j, 12, i[5]), d = w(d, f, h, c, q, 17, i[6]), c = w(c, d, f, h, R, 22, i[7]), h = w(h, c, d, f, W, 7, i[8]), f = w(f, h, c, d, D, 12, i[9]), d = w(d, f, h, c, J, 17, i[10]), c = w(c, d, f, h, N, 22, i[11]), h = w(h, c, d, f, Q, 7, i[12]), f = w(f, h, c, d, L, 12, i[13]), d = w(d, f, h, c, Y, 17, i[14]), c = w(c, d, f, h, K, 22, i[15]), h = m(h, c, d, f, _, 5, i[16]), f = m(f, h, c, d, q, 9, i[17]), d = m(d, f, h, c, N, 14, i[18]), c = m(c, d, f, h, g, 20, i[19]), h = m(h, c, d, f, j, 5, i[20]), f = m(f, h, c, d, J, 9, i[21]), d = m(d, f, h, c, K, 14, i[22]), c = m(c, d, f, h, O, 20, i[23]), h = m(h, c, d, f, D, 5, i[24]), f = m(f, h, c, d, Y, 9, i[25]), d = m(d, f, h, c, T, 14, i[26]), c = m(c, d, f, h, W, 20, i[27]), h = m(h, c, d, f, L, 5, i[28]), f = m(f, h, c, d, F, 9, i[29]), d = m(d, f, h, c, R, 14, i[30]), c = m(c, d, f, h, Q, 20, i[31]), h = B(h, c, d, f, j, 4, i[32]), f = B(f, h, c, d, W, 11, i[33]), d = B(d, f, h, c, N, 16, i[34]), c = B(c, d, f, h, Y, 23, i[35]), h = B(h, c, d, f, _, 4, i[36]), f = B(f, h, c, d, O, 11, i[37]), d = B(d, f, h, c, R, 16, i[38]), c = B(c, d, f, h, J, 23, i[39]), h = B(h, c, d, f, L, 4, i[40]), f = B(f, h, c, d, g, 11, i[41]), d = B(d, f, h, c, T, 16, i[42]), c = B(c, d, f, h, q, 23, i[43]), h = B(h, c, d, f, D, 4, i[44]), f = B(f, h, c, d, Q, 11, i[45]), d = B(d, f, h, c, K, 16, i[46]), c = B(c, d, f, h, F, 23, i[47]), h = P(h, c, d, f, g, 6, i[48]), f = P(f, h, c, d, R, 10, i[49]), d = P(d, f, h, c, Y, 15, i[50]), c = P(c, d, f, h, j, 21, i[51]), h = P(h, c, d, f, Q, 6, i[52]), f = P(f, h, c, d, T, 10, i[53]), d = P(d, f, h, c, J, 15, i[54]), c = P(c, d, f, h, _, 21, i[55]), h = P(h, c, d, f, W, 6, i[56]), f = P(f, h, c, d, K, 10, i[57]), d = P(d, f, h, c, q, 15, i[58]), c = P(c, d, f, h, L, 21, i[59]), h = P(h, c, d, f, O, 6, i[60]), f = P(f, h, c, d, N, 10, i[61]), d = P(d, f, h, c, F, 15, i[62]), c = P(c, d, f, h, D, 21, i[63]), v[0] = v[0] + h | 0, v[1] = v[1] + c | 0, v[2] = v[2] + d | 0, v[3] = v[3] + f | 0;
         },
         _doFinalize: function() {
-          var y = this._data, b = y.words, P = this._nDataBytes * 8, c = y.sigBytes * 8;
-          b[c >>> 5] |= 128 << 24 - c % 32;
-          var u = n.floor(P / 4294967296), v = P;
-          b[(c + 64 >>> 9 << 4) + 15] = (u << 8 | u >>> 24) & 16711935 | (u << 24 | u >>> 8) & 4278255360, b[(c + 64 >>> 9 << 4) + 14] = (v << 8 | v >>> 24) & 16711935 | (v << 24 | v >>> 8) & 4278255360, y.sigBytes = (b.length + 1) * 4, this._process();
-          for (var g = this._hash, m = g.words, F = 0; F < 4; F++) {
-            var T = m[F];
-            m[F] = (T << 8 | T >>> 24) & 16711935 | (T << 24 | T >>> 8) & 4278255360;
+          var b = this._data, y = b.words, S = this._nDataBytes * 8, s = b.sigBytes * 8;
+          y[s >>> 5] |= 128 << 24 - s % 32;
+          var x = n.floor(S / 4294967296), v = S;
+          y[(s + 64 >>> 9 << 4) + 15] = (x << 8 | x >>> 24) & 16711935 | (x << 24 | x >>> 8) & 4278255360, y[(s + 64 >>> 9 << 4) + 14] = (v << 8 | v >>> 24) & 16711935 | (v << 24 | v >>> 8) & 4278255360, b.sigBytes = (y.length + 1) * 4, this._process();
+          for (var g = this._hash, _ = g.words, F = 0; F < 4; F++) {
+            var T = _[F];
+            _[F] = (T << 8 | T >>> 24) & 16711935 | (T << 24 | T >>> 8) & 4278255360;
           }
           return g;
         },
         clone: function() {
-          var y = x.clone.call(this);
-          return y._hash = this._hash.clone(), y;
+          var b = u.clone.call(this);
+          return b._hash = this._hash.clone(), b;
         }
       });
-      function S(y, b, P, c, u, v, g) {
-        var m = y + (b & P | ~b & c) + u + g;
-        return (m << v | m >>> 32 - v) + b;
+      function w(b, y, S, s, x, v, g) {
+        var _ = b + (y & S | ~y & s) + x + g;
+        return (_ << v | _ >>> 32 - v) + y;
       }
-      function _(y, b, P, c, u, v, g) {
-        var m = y + (b & c | P & ~c) + u + g;
-        return (m << v | m >>> 32 - v) + b;
+      function m(b, y, S, s, x, v, g) {
+        var _ = b + (y & s | S & ~s) + x + g;
+        return (_ << v | _ >>> 32 - v) + y;
       }
-      function B(y, b, P, c, u, v, g) {
-        var m = y + (b ^ P ^ c) + u + g;
-        return (m << v | m >>> 32 - v) + b;
+      function B(b, y, S, s, x, v, g) {
+        var _ = b + (y ^ S ^ s) + x + g;
+        return (_ << v | _ >>> 32 - v) + y;
       }
-      function w(y, b, P, c, u, v, g) {
-        var m = y + (P ^ (b | ~c)) + u + g;
-        return (m << v | m >>> 32 - v) + b;
+      function P(b, y, S, s, x, v, g) {
+        var _ = b + (S ^ (y | ~s)) + x + g;
+        return (_ << v | _ >>> 32 - v) + y;
       }
-      o.MD5 = x._createHelper(a), o.HmacMD5 = x._createHmacHelper(a);
+      o.MD5 = u._createHelper(a), o.HmacMD5 = u._createHmacHelper(a);
     }(Math), t.MD5;
   });
 })(Qr);
 var Re = Qr.exports;
-const _r = /* @__PURE__ */ Jr(Re);
-var Yr = { exports: {} }, wr = { exports: {} }, Kr;
+const Fr = /* @__PURE__ */ Jr(Re);
+var Yr = { exports: {} }, _r = { exports: {} }, Kr;
 function Zr() {
   return Kr || (Kr = 1, function(r, e) {
     (function(t, n) {
       r.exports = n(xr());
     })(X, function(t) {
       return function(n) {
-        var o = t, p = o.lib, h = p.Base, x = p.WordArray, C = o.x64 = {};
-        C.Word = h.extend({
+        var o = t, p = o.lib, l = p.Base, u = p.WordArray, H = o.x64 = {};
+        H.Word = l.extend({
           /**
            * Initializes a newly created 64-bit word.
            *
@@ -776,7 +776,7 @@ function Zr() {
           // var high = (this.high + word.high + carry) | 0;
           // return X64Word.create(high, low);
           // }
-        }), C.WordArray = h.extend({
+        }), H.WordArray = l.extend({
           /**
            * Initializes a newly created word array.
            *
@@ -810,11 +810,11 @@ function Zr() {
            *     var x32WordArray = x64WordArray.toX32();
            */
           toX32: function() {
-            for (var i = this.words, a = i.length, S = [], _ = 0; _ < a; _++) {
-              var B = i[_];
-              S.push(B.high), S.push(B.low);
+            for (var i = this.words, a = i.length, w = [], m = 0; m < a; m++) {
+              var B = i[m];
+              w.push(B.high), w.push(B.low);
             }
-            return x.create(S, this.sigBytes);
+            return u.create(w, this.sigBytes);
           },
           /**
            * Creates a copy of this word array.
@@ -826,27 +826,27 @@ function Zr() {
            *     var clone = x64WordArray.clone();
            */
           clone: function() {
-            for (var i = h.clone.call(this), a = i.words = this.words.slice(0), S = a.length, _ = 0; _ < S; _++)
-              a[_] = a[_].clone();
+            for (var i = l.clone.call(this), a = i.words = this.words.slice(0), w = a.length, m = 0; m < w; m++)
+              a[m] = a[m].clone();
             return i;
           }
         });
       }(), t;
     });
-  }(wr)), wr.exports;
+  }(_r)), _r.exports;
 }
-var Sr = { exports: {} }, Mr;
+var wr = { exports: {} }, Mr;
 function Ae() {
   return Mr || (Mr = 1, function(r, e) {
     (function(t, n, o) {
       r.exports = n(xr(), Zr());
     })(X, function(t) {
       return function() {
-        var n = t, o = n.lib, p = o.Hasher, h = n.x64, x = h.Word, C = h.WordArray, i = n.algo;
+        var n = t, o = n.lib, p = o.Hasher, l = n.x64, u = l.Word, H = l.WordArray, i = n.algo;
         function a() {
-          return x.create.apply(x, arguments);
+          return u.create.apply(u, arguments);
         }
-        var S = [
+        var w = [
           a(1116352408, 3609767458),
           a(1899447441, 602891725),
           a(3049323471, 3964484399),
@@ -927,64 +927,64 @@ function Ae() {
           a(1501505948, 4234509866),
           a(1607167915, 987167468),
           a(1816402316, 1246189591)
-        ], _ = [];
+        ], m = [];
         (function() {
-          for (var w = 0; w < 80; w++)
-            _[w] = a();
+          for (var P = 0; P < 80; P++)
+            m[P] = a();
         })();
         var B = i.SHA512 = p.extend({
           _doReset: function() {
-            this._hash = new C.init([
-              new x.init(1779033703, 4089235720),
-              new x.init(3144134277, 2227873595),
-              new x.init(1013904242, 4271175723),
-              new x.init(2773480762, 1595750129),
-              new x.init(1359893119, 2917565137),
-              new x.init(2600822924, 725511199),
-              new x.init(528734635, 4215389547),
-              new x.init(1541459225, 327033209)
+            this._hash = new H.init([
+              new u.init(1779033703, 4089235720),
+              new u.init(3144134277, 2227873595),
+              new u.init(1013904242, 4271175723),
+              new u.init(2773480762, 1595750129),
+              new u.init(1359893119, 2917565137),
+              new u.init(2600822924, 725511199),
+              new u.init(528734635, 4215389547),
+              new u.init(1541459225, 327033209)
             ]);
           },
-          _doProcessBlock: function(w, y) {
-            for (var b = this._hash.words, P = b[0], c = b[1], u = b[2], v = b[3], g = b[4], m = b[5], F = b[6], T = b[7], O = P.high, j = P.low, q = c.high, R = c.low, W = u.high, D = u.low, J = v.high, N = v.low, Q = g.high, L = g.low, Y = m.high, K = m.low, l = F.high, s = F.low, d = T.high, f = T.low, z = O, A = j, or = q, rr = R, ir = W, er = D, yr = J, cr = N, U = Q, E = L, pr = Y, sr = K, vr = l, fr = s, gr = d, lr = f, $ = 0; $ < 80; $++) {
-              var k, V, br = _[$];
-              if ($ < 16)
-                V = br.high = w[y + $ * 2] | 0, k = br.low = w[y + $ * 2 + 1] | 0;
+          _doProcessBlock: function(P, b) {
+            for (var y = this._hash.words, S = y[0], s = y[1], x = y[2], v = y[3], g = y[4], _ = y[5], F = y[6], T = y[7], O = S.high, j = S.low, q = s.high, R = s.low, W = x.high, D = x.low, J = v.high, N = v.low, Q = g.high, L = g.low, Y = _.high, K = _.low, h = F.high, c = F.low, d = T.high, f = T.low, $ = O, A = j, or = q, rr = R, ir = W, er = D, br = J, sr = N, U = Q, I = L, pr = Y, cr = K, vr = h, fr = c, gr = d, lr = f, z = 0; z < 80; z++) {
+              var E, V, yr = m[z];
+              if (z < 16)
+                V = yr.high = P[b + z * 2] | 0, E = yr.low = P[b + z * 2 + 1] | 0;
               else {
-                var jr = _[$ - 15], tr = jr.high, dr = jr.low, fe = (tr >>> 1 | dr << 31) ^ (tr >>> 8 | dr << 24) ^ tr >>> 7, Rr = (dr >>> 1 | tr << 31) ^ (dr >>> 8 | tr << 24) ^ (dr >>> 7 | tr << 25), Ar = _[$ - 2], nr = Ar.high, hr = Ar.low, le = (nr >>> 19 | hr << 13) ^ (nr << 3 | hr >>> 29) ^ nr >>> 6, Er = (hr >>> 19 | nr << 13) ^ (hr << 3 | nr >>> 29) ^ (hr >>> 6 | nr << 26), Ir = _[$ - 7], de = Ir.high, he = Ir.low, kr = _[$ - 16], ue = kr.high, zr = kr.low;
-                k = Rr + he, V = fe + de + (k >>> 0 < Rr >>> 0 ? 1 : 0), k = k + Er, V = V + le + (k >>> 0 < Er >>> 0 ? 1 : 0), k = k + zr, V = V + ue + (k >>> 0 < zr >>> 0 ? 1 : 0), br.high = V, br.low = k;
+                var jr = m[z - 15], tr = jr.high, hr = jr.low, fe = (tr >>> 1 | hr << 31) ^ (tr >>> 8 | hr << 24) ^ tr >>> 7, Rr = (hr >>> 1 | tr << 31) ^ (hr >>> 8 | tr << 24) ^ (hr >>> 7 | tr << 25), Ar = m[z - 2], nr = Ar.high, dr = Ar.low, le = (nr >>> 19 | dr << 13) ^ (nr << 3 | dr >>> 29) ^ nr >>> 6, Ir = (dr >>> 19 | nr << 13) ^ (dr << 3 | nr >>> 29) ^ (dr >>> 6 | nr << 26), kr = m[z - 7], he = kr.high, de = kr.low, Er = m[z - 16], ue = Er.high, $r = Er.low;
+                E = Rr + de, V = fe + he + (E >>> 0 < Rr >>> 0 ? 1 : 0), E = E + Ir, V = V + le + (E >>> 0 < Ir >>> 0 ? 1 : 0), E = E + $r, V = V + ue + (E >>> 0 < $r >>> 0 ? 1 : 0), yr.high = V, yr.low = E;
               }
-              var xe = U & pr ^ ~U & vr, Ur = E & sr ^ ~E & fr, pe = z & or ^ z & ir ^ or & ir, ve = A & rr ^ A & er ^ rr & er, be = (z >>> 28 | A << 4) ^ (z << 30 | A >>> 2) ^ (z << 25 | A >>> 7), $r = (A >>> 28 | z << 4) ^ (A << 30 | z >>> 2) ^ (A << 25 | z >>> 7), ye = (U >>> 14 | E << 18) ^ (U >>> 18 | E << 14) ^ (U << 23 | E >>> 9), ge = (E >>> 14 | U << 18) ^ (E >>> 18 | U << 14) ^ (E << 23 | U >>> 9), qr = S[$], me = qr.high, Dr = qr.low, I = lr + ge, G = gr + ye + (I >>> 0 < lr >>> 0 ? 1 : 0), I = I + Ur, G = G + xe + (I >>> 0 < Ur >>> 0 ? 1 : 0), I = I + Dr, G = G + me + (I >>> 0 < Dr >>> 0 ? 1 : 0), I = I + k, G = G + V + (I >>> 0 < k >>> 0 ? 1 : 0), Nr = $r + ve, _e = be + pe + (Nr >>> 0 < $r >>> 0 ? 1 : 0);
-              gr = vr, lr = fr, vr = pr, fr = sr, pr = U, sr = E, E = cr + I | 0, U = yr + G + (E >>> 0 < cr >>> 0 ? 1 : 0) | 0, yr = ir, cr = er, ir = or, er = rr, or = z, rr = A, A = I + Nr | 0, z = G + _e + (A >>> 0 < I >>> 0 ? 1 : 0) | 0;
+              var xe = U & pr ^ ~U & vr, Ur = I & cr ^ ~I & fr, pe = $ & or ^ $ & ir ^ or & ir, ve = A & rr ^ A & er ^ rr & er, ye = ($ >>> 28 | A << 4) ^ ($ << 30 | A >>> 2) ^ ($ << 25 | A >>> 7), zr = (A >>> 28 | $ << 4) ^ (A << 30 | $ >>> 2) ^ (A << 25 | $ >>> 7), be = (U >>> 14 | I << 18) ^ (U >>> 18 | I << 14) ^ (U << 23 | I >>> 9), ge = (I >>> 14 | U << 18) ^ (I >>> 18 | U << 14) ^ (I << 23 | U >>> 9), qr = w[z], me = qr.high, Dr = qr.low, k = lr + ge, G = gr + be + (k >>> 0 < lr >>> 0 ? 1 : 0), k = k + Ur, G = G + xe + (k >>> 0 < Ur >>> 0 ? 1 : 0), k = k + Dr, G = G + me + (k >>> 0 < Dr >>> 0 ? 1 : 0), k = k + E, G = G + V + (k >>> 0 < E >>> 0 ? 1 : 0), Nr = zr + ve, _e = ye + pe + (Nr >>> 0 < zr >>> 0 ? 1 : 0);
+              gr = vr, lr = fr, vr = pr, fr = cr, pr = U, cr = I, I = sr + k | 0, U = br + G + (I >>> 0 < sr >>> 0 ? 1 : 0) | 0, br = ir, sr = er, ir = or, er = rr, or = $, rr = A, A = k + Nr | 0, $ = G + _e + (A >>> 0 < k >>> 0 ? 1 : 0) | 0;
             }
-            j = P.low = j + A, P.high = O + z + (j >>> 0 < A >>> 0 ? 1 : 0), R = c.low = R + rr, c.high = q + or + (R >>> 0 < rr >>> 0 ? 1 : 0), D = u.low = D + er, u.high = W + ir + (D >>> 0 < er >>> 0 ? 1 : 0), N = v.low = N + cr, v.high = J + yr + (N >>> 0 < cr >>> 0 ? 1 : 0), L = g.low = L + E, g.high = Q + U + (L >>> 0 < E >>> 0 ? 1 : 0), K = m.low = K + sr, m.high = Y + pr + (K >>> 0 < sr >>> 0 ? 1 : 0), s = F.low = s + fr, F.high = l + vr + (s >>> 0 < fr >>> 0 ? 1 : 0), f = T.low = f + lr, T.high = d + gr + (f >>> 0 < lr >>> 0 ? 1 : 0);
+            j = S.low = j + A, S.high = O + $ + (j >>> 0 < A >>> 0 ? 1 : 0), R = s.low = R + rr, s.high = q + or + (R >>> 0 < rr >>> 0 ? 1 : 0), D = x.low = D + er, x.high = W + ir + (D >>> 0 < er >>> 0 ? 1 : 0), N = v.low = N + sr, v.high = J + br + (N >>> 0 < sr >>> 0 ? 1 : 0), L = g.low = L + I, g.high = Q + U + (L >>> 0 < I >>> 0 ? 1 : 0), K = _.low = K + cr, _.high = Y + pr + (K >>> 0 < cr >>> 0 ? 1 : 0), c = F.low = c + fr, F.high = h + vr + (c >>> 0 < fr >>> 0 ? 1 : 0), f = T.low = f + lr, T.high = d + gr + (f >>> 0 < lr >>> 0 ? 1 : 0);
           },
           _doFinalize: function() {
-            var w = this._data, y = w.words, b = this._nDataBytes * 8, P = w.sigBytes * 8;
-            y[P >>> 5] |= 128 << 24 - P % 32, y[(P + 128 >>> 10 << 5) + 30] = Math.floor(b / 4294967296), y[(P + 128 >>> 10 << 5) + 31] = b, w.sigBytes = y.length * 4, this._process();
-            var c = this._hash.toX32();
-            return c;
+            var P = this._data, b = P.words, y = this._nDataBytes * 8, S = P.sigBytes * 8;
+            b[S >>> 5] |= 128 << 24 - S % 32, b[(S + 128 >>> 10 << 5) + 30] = Math.floor(y / 4294967296), b[(S + 128 >>> 10 << 5) + 31] = y, P.sigBytes = b.length * 4, this._process();
+            var s = this._hash.toX32();
+            return s;
           },
           clone: function() {
-            var w = p.clone.call(this);
-            return w._hash = this._hash.clone(), w;
+            var P = p.clone.call(this);
+            return P._hash = this._hash.clone(), P;
           },
           blockSize: 1024 / 32
         });
         n.SHA512 = p._createHelper(B), n.HmacSHA512 = p._createHmacHelper(B);
       }(), t.SHA512;
     });
-  }(Sr)), Sr.exports;
+  }(wr)), wr.exports;
 }
 var Pr = { exports: {} }, Xr;
-function Ee() {
+function Ie() {
   return Xr || (Xr = 1, function(r, e) {
     (function(t, n) {
       r.exports = n(xr());
     })(X, function(t) {
       (function() {
-        var n = t, o = n.lib, p = o.Base, h = n.enc, x = h.Utf8, C = n.algo;
-        C.HMAC = p.extend({
+        var n = t, o = n.lib, p = o.Base, l = n.enc, u = l.Utf8, H = n.algo;
+        H.HMAC = p.extend({
           /**
            * Initializes a newly created HMAC.
            *
@@ -996,12 +996,12 @@ function Ee() {
            *     var hmacHasher = CryptoJS.algo.HMAC.create(CryptoJS.algo.SHA256, key);
            */
           init: function(i, a) {
-            i = this._hasher = new i.init(), typeof a == "string" && (a = x.parse(a));
-            var S = i.blockSize, _ = S * 4;
-            a.sigBytes > _ && (a = i.finalize(a)), a.clamp();
-            for (var B = this._oKey = a.clone(), w = this._iKey = a.clone(), y = B.words, b = w.words, P = 0; P < S; P++)
-              y[P] ^= 1549556828, b[P] ^= 909522486;
-            B.sigBytes = w.sigBytes = _, this.reset();
+            i = this._hasher = new i.init(), typeof a == "string" && (a = u.parse(a));
+            var w = i.blockSize, m = w * 4;
+            a.sigBytes > m && (a = i.finalize(a)), a.clamp();
+            for (var B = this._oKey = a.clone(), P = this._iKey = a.clone(), b = B.words, y = P.words, S = 0; S < w; S++)
+              b[S] ^= 1549556828, y[S] ^= 909522486;
+            B.sigBytes = P.sigBytes = m, this.reset();
           },
           /**
            * Resets this HMAC to its initial state.
@@ -1044,10 +1044,10 @@ function Ee() {
            *     var hmac = hmacHasher.finalize(wordArray);
            */
           finalize: function(i) {
-            var a = this._hasher, S = a.finalize(i);
+            var a = this._hasher, w = a.finalize(i);
             a.reset();
-            var _ = a.finalize(this._oKey.clone().concat(S));
-            return _;
+            var m = a.finalize(this._oKey.clone().concat(w));
+            return m;
           }
         });
       })();
@@ -1056,13 +1056,13 @@ function Ee() {
 }
 (function(r, e) {
   (function(t, n, o) {
-    r.exports = n(xr(), Zr(), Ae(), Ee());
+    r.exports = n(xr(), Zr(), Ae(), Ie());
   })(X, function(t) {
     return t.HmacSHA512;
   });
 })(Yr);
-var Ie = Yr.exports;
-const Fr = /* @__PURE__ */ Jr(Ie), re = "%[a-f0-9]{2}", Vr = new RegExp("(" + re + ")|([^%]+?)", "gi"), Gr = new RegExp("(" + re + ")+", "gi");
+var ke = Yr.exports;
+const Br = /* @__PURE__ */ Jr(ke), re = "%[a-f0-9]{2}", Vr = new RegExp("(" + re + ")|([^%]+?)", "gi"), Gr = new RegExp("(" + re + ")+", "gi");
 function Hr(r, e) {
   try {
     return [decodeURIComponent(r.join(""))];
@@ -1074,7 +1074,7 @@ function Hr(r, e) {
   const t = r.slice(0, e), n = r.slice(e);
   return Array.prototype.concat.call([], Hr(t), Hr(n));
 }
-function ke(r) {
+function Ee(r) {
   try {
     return decodeURIComponent(r);
   } catch {
@@ -1084,7 +1084,7 @@ function ke(r) {
     return r;
   }
 }
-function ze(r) {
+function $e(r) {
   const e = {
     "%FE%FF": "��",
     "%FF%FE": "��"
@@ -1094,7 +1094,7 @@ function ze(r) {
     try {
       e[t[0]] = decodeURIComponent(t[0]);
     } catch {
-      const o = ke(t[0]);
+      const o = Ee(t[0]);
       o !== t[0] && (e[t[0]] = o);
     }
     t = Gr.exec(r);
@@ -1111,7 +1111,7 @@ function Ue(r) {
   try {
     return decodeURIComponent(r);
   } catch {
-    return ze(r);
+    return $e(r);
   }
 }
 function ee(r, e) {
@@ -1125,7 +1125,7 @@ function ee(r, e) {
     r.slice(t + e.length)
   ];
 }
-function $e(r, e) {
+function ze(r, e) {
   const t = {};
   if (Array.isArray(e))
     for (const n of e) {
@@ -1150,41 +1150,41 @@ function Ne(r) {
         const o = t.length;
         return n === void 0 || r.skipNull && n === null || r.skipEmptyString && n === "" ? t : n === null ? [
           ...t,
-          [H(e, r), "[", o, "]"].join("")
+          [C(e, r), "[", o, "]"].join("")
         ] : [
           ...t,
-          [H(e, r), "[", H(o, r), "]=", H(n, r)].join("")
+          [C(e, r), "[", C(o, r), "]=", C(n, r)].join("")
         ];
       };
     case "bracket":
       return (e) => (t, n) => n === void 0 || r.skipNull && n === null || r.skipEmptyString && n === "" ? t : n === null ? [
         ...t,
-        [H(e, r), "[]"].join("")
+        [C(e, r), "[]"].join("")
       ] : [
         ...t,
-        [H(e, r), "[]=", H(n, r)].join("")
+        [C(e, r), "[]=", C(n, r)].join("")
       ];
     case "colon-list-separator":
       return (e) => (t, n) => n === void 0 || r.skipNull && n === null || r.skipEmptyString && n === "" ? t : n === null ? [
         ...t,
-        [H(e, r), ":list="].join("")
+        [C(e, r), ":list="].join("")
       ] : [
         ...t,
-        [H(e, r), ":list=", H(n, r)].join("")
+        [C(e, r), ":list=", C(n, r)].join("")
       ];
     case "comma":
     case "separator":
     case "bracket-separator": {
       const e = r.arrayFormat === "bracket-separator" ? "[]=" : "=";
-      return (t) => (n, o) => o === void 0 || r.skipNull && o === null || r.skipEmptyString && o === "" ? n : (o = o === null ? "" : o, n.length === 0 ? [[H(t, r), e, H(o, r)].join("")] : [[n, H(o, r)].join(r.arrayFormatSeparator)]);
+      return (t) => (n, o) => o === void 0 || r.skipNull && o === null || r.skipEmptyString && o === "" ? n : (o = o === null ? "" : o, n.length === 0 ? [[C(t, r), e, C(o, r)].join("")] : [[n, C(o, r)].join(r.arrayFormatSeparator)]);
     }
     default:
       return (e) => (t, n) => n === void 0 || r.skipNull && n === null || r.skipEmptyString && n === "" ? t : n === null ? [
         ...t,
-        H(e, r)
+        C(e, r)
       ] : [
         ...t,
-        [H(e, r), "=", H(n, r)].join("")
+        [C(e, r), "=", C(n, r)].join("")
       ];
   }
 }
@@ -1226,10 +1226,10 @@ function Le(r) {
     case "comma":
     case "separator":
       return (t, n, o) => {
-        const p = typeof n == "string" && n.includes(r.arrayFormatSeparator), h = typeof n == "string" && !p && M(n, r).includes(r.arrayFormatSeparator);
-        n = h ? M(n, r) : n;
-        const x = p || h ? n.split(r.arrayFormatSeparator).map((C) => M(C, r)) : n === null ? n : M(n, r);
-        o[t] = x;
+        const p = typeof n == "string" && n.includes(r.arrayFormatSeparator), l = typeof n == "string" && !p && M(n, r).includes(r.arrayFormatSeparator);
+        n = l ? M(n, r) : n;
+        const u = p || l ? n.split(r.arrayFormatSeparator).map((H) => M(H, r)) : n === null ? n : M(n, r);
+        o[t] = u;
       };
     case "bracket-separator":
       return (t, n, o) => {
@@ -1238,12 +1238,12 @@ function Le(r) {
           o[t] = n && M(n, r);
           return;
         }
-        const h = n === null ? [] : n.split(r.arrayFormatSeparator).map((x) => M(x, r));
+        const l = n === null ? [] : n.split(r.arrayFormatSeparator).map((u) => M(u, r));
         if (o[t] === void 0) {
-          o[t] = h;
+          o[t] = l;
           return;
         }
-        o[t] = [...o[t], ...h];
+        o[t] = [...o[t], ...l];
       };
     default:
       return (t, n, o) => {
@@ -1259,7 +1259,7 @@ function te(r) {
   if (typeof r != "string" || r.length !== 1)
     throw new TypeError("arrayFormatSeparator must be single character string");
 }
-function H(r, e) {
+function C(r, e) {
   return e.encode ? e.strict ? De(r) : encodeURIComponent(r) : r;
 }
 function M(r, e) {
@@ -1302,18 +1302,18 @@ function Or(r, e) {
     if (o === "")
       continue;
     const p = e.decode ? o.replace(/\+/g, " ") : o;
-    let [h, x] = ee(p, "=");
-    h === void 0 && (h = p), x = x === void 0 ? null : ["comma", "separator", "bracket-separator"].includes(e.arrayFormat) ? x : M(x, e), t(M(h, e), x, n);
+    let [l, u] = ee(p, "=");
+    l === void 0 && (l = p), u = u === void 0 ? null : ["comma", "separator", "bracket-separator"].includes(e.arrayFormat) ? u : M(u, e), t(M(l, e), u, n);
   }
   for (const [o, p] of Object.entries(n))
     if (typeof p == "object" && p !== null)
-      for (const [h, x] of Object.entries(p))
-        p[h] = Wr(x, e);
+      for (const [l, u] of Object.entries(p))
+        p[l] = Wr(u, e);
     else
       n[o] = Wr(p, e);
   return e.sort === !1 ? n : (e.sort === !0 ? Object.keys(n).sort() : Object.keys(n).sort(e.sort)).reduce((o, p) => {
-    const h = n[p];
-    return h && typeof h == "object" && !Array.isArray(h) ? o[p] = ne(h) : o[p] = h, o;
+    const l = n[p];
+    return l && typeof l == "object" && !Array.isArray(l) ? o[p] = ne(l) : o[p] = l, o;
   }, /* @__PURE__ */ Object.create(null));
 }
 function oe(r, e) {
@@ -1326,14 +1326,14 @@ function oe(r, e) {
     arrayFormatSeparator: ",",
     ...e
   }, te(e.arrayFormatSeparator);
-  const t = (h) => e.skipNull && qe(r[h]) || e.skipEmptyString && r[h] === "", n = Ne(e), o = {};
-  for (const [h, x] of Object.entries(r))
-    t(h) || (o[h] = x);
+  const t = (l) => e.skipNull && qe(r[l]) || e.skipEmptyString && r[l] === "", n = Ne(e), o = {};
+  for (const [l, u] of Object.entries(r))
+    t(l) || (o[l] = u);
   const p = Object.keys(o);
-  return e.sort !== !1 && p.sort(e.sort), p.map((h) => {
-    const x = r[h];
-    return x === void 0 ? "" : x === null ? H(h, e) : Array.isArray(x) ? x.length === 0 && e.arrayFormat === "bracket-separator" ? H(h, e) + "[]" : x.reduce(n(h), []).join("&") : H(h, e) + "=" + H(x, e);
-  }).filter((h) => h.length > 0).join("&");
+  return e.sort !== !1 && p.sort(e.sort), p.map((l) => {
+    const u = r[l];
+    return u === void 0 ? "" : u === null ? C(l, e) : Array.isArray(u) ? u.length === 0 && e.arrayFormat === "bracket-separator" ? C(l, e) + "[]" : u.reduce(n(l), []).join("&") : C(l, e) + "=" + C(u, e);
+  }).filter((l) => l.length > 0).join("&");
 }
 function ie(r, e) {
   var o;
@@ -1348,7 +1348,7 @@ function ie(r, e) {
     ...e && e.parseFragmentIdentifier && n ? { fragmentIdentifier: M(n, e) } : {}
   };
 }
-function ce(r, e) {
+function se(r, e) {
   e = {
     encode: !0,
     strict: !0,
@@ -1361,29 +1361,29 @@ function ce(r, e) {
   };
   let p = oe(o, e);
   p && (p = `?${p}`);
-  let h = Ke(r.url);
+  let l = Ke(r.url);
   if (r.fragmentIdentifier) {
-    const x = new URL(t);
-    x.hash = r.fragmentIdentifier, h = e[Cr] ? x.hash : `#${r.fragmentIdentifier}`;
+    const u = new URL(t);
+    u.hash = r.fragmentIdentifier, l = e[Cr] ? u.hash : `#${r.fragmentIdentifier}`;
   }
-  return `${t}${p}${h}`;
+  return `${t}${p}${l}`;
 }
-function se(r, e, t) {
+function ce(r, e, t) {
   t = {
     parseFragmentIdentifier: !0,
     [Cr]: !1,
     ...t
   };
   const { url: n, query: o, fragmentIdentifier: p } = ie(r, t);
-  return ce({
+  return se({
     url: n,
-    query: $e(o, e),
+    query: ze(o, e),
     fragmentIdentifier: p
   }, t);
 }
 function Me(r, e, t) {
   const n = Array.isArray(e) ? (o) => !e.includes(o) : (o, p) => !e(o, p);
-  return se(r, n, t);
+  return ce(r, n, t);
 }
 const Xe = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
   __proto__: null,
@@ -1391,11 +1391,91 @@ const Xe = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
   extract: Tr,
   parse: Or,
   parseUrl: ie,
-  pick: se,
+  pick: ce,
   stringify: oe,
-  stringifyUrl: ce
-}, Symbol.toStringTag, { value: "Module" })), Ve = ar.dirname(Fe(new URL(import.meta.url)));
-function rt(r) {
+  stringifyUrl: se
+}, Symbol.toStringTag, { value: "Module" }));
+class Sr {
+  constructor(e) {
+    Z(this, "storyId", "");
+    Z(this, "storyFullPath", "");
+    Z(this, "storyRelativePath", "");
+    Z(this, "fullPath", "");
+    Z(this, "htmlTemplatePath", {
+      fullPath: "",
+      replace: ""
+    });
+    Z(this, "scriptTemplatePath", {
+      fullPath: "",
+      replace: ""
+    });
+    this.fullPath = e.fullPath, this.htmlTemplatePath = e.htmlTemplatePath, this.scriptTemplatePath = e.scriptTemplatePath;
+  }
+  getHtml() {
+    try {
+      var e = ur.readFileSync(this.htmlTemplatePath.fullPath, "utf-8");
+      return e.replace(
+        this.htmlTemplatePath.replace,
+        `${this.htmlTemplatePath.replace}?story_html_script_id=${this.storyId}`
+      ) ?? `<div>something went wrong. This ${this.htmlTemplatePath.fullPath} file exist ?</div>`;
+    } catch {
+      return `<div>cant get ${this.htmlTemplatePath.fullPath}. file exist ?</div>`;
+    }
+  }
+  getScript() {
+    var e = ur.readFileSync(this.scriptTemplatePath.fullPath, "utf-8");
+    return e.replace(this.scriptTemplatePath.replace, this.fullPath);
+  }
+  getScriptUseCode(e) {
+    return e.replace(this.scriptTemplatePath.replace, this.fullPath);
+  }
+}
+const Ve = ar.dirname(Fe(new URL(import.meta.url))), Ge = function(r) {
+  const e = [], t = [r];
+  do {
+    const n = t.pop(), o = ur.lstatSync(n);
+    o.isDirectory() ? ur.readdirSync(n).forEach(
+      (p) => t.push(ar.join(n, p))
+    ) : o.isFile() && e.push(ar.normalize(n));
+  } while (t.length !== 0);
+  return e;
+}, We = (r) => {
+  const e = /^story\./.test(r), t = /^book\./.test(r);
+  let n = "";
+  if (e) {
+    const o = r.match(/^story\.([a-f0-9]{32})/);
+    o && o.length && (n = o[1]);
+  }
+  return {
+    storyId: n,
+    isBook: t
+  };
+}, Je = (r) => Fr(
+  Br(r, "")
+).toString(), Qe = (r) => {
+  const e = [], t = Object.keys(r);
+  for (let n = 0; n < t.length; n++) {
+    const o = {
+      storyId: Je(r[t[n]].fullPath),
+      file: r[t[n]].storyRelativePath
+    };
+    e.push(o);
+  }
+  return e;
+}, Ye = (r) => {
+  const e = {
+    book: Qe(r)
+  };
+  let t = ur.readFileSync(
+    ar.join(Ve, "../client/index.html"),
+    "utf-8"
+  );
+  return t = t.replace("--json-base64--", btoa(JSON.stringify(e))), t = t.replace(
+    "<!-- script -->",
+    '<script type="module" src="/@vite/client"><\/script>'
+  ), t.replace("--json-base64--", btoa(JSON.stringify(e)));
+};
+function at(r) {
   const e = {
     command: "build",
     host: "",
@@ -1415,63 +1495,58 @@ function rt(r) {
     }
   };
   r != null && (r.htmlTemplatePath != null && (e.htmlTemplatePath = r.htmlTemplatePath), r.scriptTemplatePath != null && (e.scriptTemplatePath = r.scriptTemplatePath));
-  const t = (h) => {
-    const x = _r(Fr(h.fullPath, "")).toString();
-    h.storyId = x;
-    const C = h.fullPath.replace(e.root, "");
-    h.storyRelativePath = C;
-    const i = Pe(
-      ar.join(e.root, e.storiesCache, h.storyRelativePath)
+  const t = (l) => {
+    const u = Fr(Br(l.fullPath, "")).toString();
+    l.storyId = u;
+    const H = l.fullPath.replace(e.root, "");
+    l.storyRelativePath = H;
+    const i = Se(
+      ar.join(e.root, e.storiesCache, l.storyRelativePath)
     );
-    h.storyFullPath = i, e.book[x] = h;
+    l.storyFullPath = i, e.book[u] = l;
   }, n = () => {
-    const h = Ge(ar.join(e.root, e.storiesPath));
+    const l = Ge(ar.join(e.root, e.storiesPath));
     e.book = {};
-    for (let x = 0; x < h.length; x++)
-      p(h[x]) && t(
-        new Br({
-          fullPath: h[x],
+    for (let u = 0; u < l.length; u++)
+      p(l[u]) && t(
+        new Sr({
+          fullPath: l[u],
           htmlTemplatePath: r.htmlTemplatePath,
           scriptTemplatePath: r.scriptTemplatePath
         })
       );
-  }, o = (h) => {
-    const x = _r(Fr(h.fullPath, "")).toString();
-    e.book[x] && delete e.book[x];
-  }, p = (h) => {
-    const x = h.split("/").pop();
-    return e.bookRegex.test(x);
+  }, o = (l) => {
+    const u = Fr(Br(l.fullPath, "")).toString();
+    e.book[u] && delete e.book[u];
+  }, p = (l) => {
+    const u = l.split("/").pop();
+    return e.bookRegex.test(u);
   };
   return {
-    name: "vite-plugin-vue-example",
-    // enforce: "pre",
-    // resolveId(source, importer, options) {
-    //     console.log('resolveId', source, importer, options)
-    //     return source
-    // },
-    config(h, x) {
-      e.command = x.command;
+    name: "vite-plugin-vitebook",
+    config(l, u) {
+      e.command = u.command;
     },
-    configResolved(h) {
-      e.command == "serve" && (e.root = h.root, n());
+    configResolved(l) {
+      e.command == "serve" && (e.root = l.root, n());
     },
-    configureServer(h) {
-      h.watcher.on("add", (x) => {
-        p(x) && (h.ws.send({
+    configureServer(l) {
+      l.watcher.on("add", (u) => {
+        p(u) && (l.ws.send({
           type: "full-reload"
         }), t(
-          new Br({
-            fullPath: x,
+          new Sr({
+            fullPath: u,
             htmlTemplatePath: r.htmlTemplatePath,
             scriptTemplatePath: r.scriptTemplatePath
           })
         ));
-      }), h.watcher.on("unlink", (x) => {
-        p(x) && (h.ws.send({
+      }), l.watcher.on("unlink", (u) => {
+        p(u) && (l.ws.send({
           type: "full-reload"
         }), o(
-          new Br({
-            fullPath: x,
+          new Sr({
+            fullPath: u,
             htmlTemplatePath: {
               fullPath: "",
               replace: ""
@@ -1482,100 +1557,36 @@ function rt(r) {
             }
           })
         ));
-      }), h.middlewares.use((x, C, i) => {
-        const a = x.headers.host ?? "", S = /^story\./.test(a), _ = /^book\./.test(a);
-        let B = "";
-        const w = a.match(/^story\.([a-f0-9]{32})/);
-        w && (B = w[1]), h.transformIndexHtml = (y, b, P) => new Promise((c) => {
-          if (S && B != "")
-            c(e.book[B].getHtml());
-          else if (_) {
-            const u = [], v = Object.keys(e.book);
-            for (let m = 0; m < v.length; m++) {
-              const F = {
-                storyId: _r(
-                  Fr(e.book[v[m]].fullPath, "")
-                ).toString(),
-                file: e.book[v[m]].storyRelativePath
-              };
-              u.push(F);
-            }
-            const g = {
-              book: u
-            };
-            b = ur.readFileSync(
-              ar.join(Ve, "../client/index.html"),
-              "utf-8"
-            ), b = b.replace("--json-base64--", btoa(JSON.stringify(g))), b = b.replace(
-              "<!-- script -->",
-              '<script type="module" src="/@vite/client"><\/script>'
-            ), c(
-              b.replace("--json-base64--", btoa(JSON.stringify(g)))
-            );
-          } else
-            c(b);
-        }), i();
+      }), l.middlewares.use((u, H, i) => {
+        l.config.___vitebook || (l.config.___vitebook = {}), l.config.___vitebook.host = u.headers.host, i();
       });
     },
-    transform(h, x, C) {
-      if (!x.includes("story_html_script_id"))
+    transformIndexHtml(l, u) {
+      var w;
+      const H = (w = u.server) == null ? void 0 : w.config.___vitebook.host, { storyId: i, isBook: a } = We(H);
+      return i == "" && !a ? l : a ? Ye(e.book) : i != "" ? e.book[i] ? e.book[i].getHtml() : `<div>story book id does not exist ${i}, try clear cache</div>` : l;
+    },
+    transform(l, u, H) {
+      if (!u.includes("story_html_script_id"))
         return {
-          code: h
+          code: l
         };
-      const i = Be(x);
+      const i = Be(u);
       if (!i.query)
         return {
-          code: h
+          code: l
         };
       const a = Xe.parse(i.query);
       return a.story_html_script_id ? e.book[a.story_html_script_id] ? {
-        code: e.book[a.story_html_script_id].getScript()
+        code: e.book[a.story_html_script_id].getScriptUseCode(l)
       } : {
-        code: h
+        code: l
       } : {
-        code: h
+        code: l
       };
     }
   };
 }
-const Ge = function(r) {
-  const e = [], t = [r];
-  do {
-    const n = t.pop(), o = ur.lstatSync(n);
-    o.isDirectory() ? ur.readdirSync(n).forEach(
-      (p) => t.push(ar.join(n, p))
-    ) : o.isFile() && e.push(ar.normalize(n));
-  } while (t.length !== 0);
-  return e;
-};
-class Br {
-  constructor(e) {
-    Z(this, "storyId", "");
-    Z(this, "storyFullPath", "");
-    Z(this, "storyRelativePath", "");
-    Z(this, "fullPath", "");
-    Z(this, "htmlTemplatePath", {
-      fullPath: "",
-      replace: ""
-    });
-    Z(this, "scriptTemplatePath", {
-      fullPath: "",
-      replace: ""
-    });
-    this.fullPath = e.fullPath, this.htmlTemplatePath = e.htmlTemplatePath, this.scriptTemplatePath = e.scriptTemplatePath;
-  }
-  getHtml() {
-    var e = ur.readFileSync(this.htmlTemplatePath.fullPath, "utf-8");
-    return e.replace(
-      this.htmlTemplatePath.replace,
-      `${this.htmlTemplatePath.replace}?story_html_script_id=${this.storyId}`
-    );
-  }
-  getScript() {
-    var e = ur.readFileSync(this.scriptTemplatePath.fullPath, "utf-8");
-    return e.replace(this.scriptTemplatePath.replace, this.fullPath);
-  }
-}
 export {
-  rt as default
+  at as default
 };

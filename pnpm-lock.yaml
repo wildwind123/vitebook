@@ -10,7 +10,7 @@ importers:
       '@vitejs/plugin-vue': ^4.2.3
       typescript: ^5.0.2
       vite: ^4.4.5
-      vite-plugin-vitebook: workspace:^0.0.12
+      vite-plugin-vitebook: workspace:^0.0.15
       vue: ^3.3.4
       vue-tsc: ^1.8.5
     dependencies:
