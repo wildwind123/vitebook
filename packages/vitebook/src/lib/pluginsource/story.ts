@@ -30,7 +30,7 @@ export class Story {
         var data = fs.readFileSync(this.htmlTemplatePath.fullPath, "utf-8");
         return data.replace(
           this.htmlTemplatePath.replace,
-          `${this.htmlTemplatePath.replace}?story_html_script_id=${this.storyId}`
+          `${this.scriptTemplatePath.fullPath}?story_html_script_id=${this.storyId}`
         ) ?? `<div>something went wrong. This ${this.htmlTemplatePath.fullPath} file exist ?</div>`;
       } catch (e) {
         return `<div>cant get ${this.htmlTemplatePath.fullPath}. file exist ?</div>`

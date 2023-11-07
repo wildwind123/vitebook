@@ -11,7 +11,7 @@ export default defineConfig({
         replace: '/src/main.ts'
       },
       scriptTemplatePath: {
-        fullPath: path.resolve(__dirname, './src/main.ts'),
+        fullPath: path.resolve(__dirname, './src/main2.ts'),
         replace: './counter.ts'
       }
     }
