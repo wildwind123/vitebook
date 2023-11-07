@@ -1,6 +1,6 @@
 import { Plugin, normalizePath } from "vite";
 import path from "path";
-import {  parse } from "url";
+import { parse } from "url";
 
 import queryString from "query-string";
 import { Story } from "./story";
@@ -34,6 +34,7 @@ export default function vitebook(cfg: Cfg): Plugin {
 
   const addStory = (story: Story) => {
     const res = generateStoryId(story.fullPath);
+
     story.storyId = res;
     const storyRelativePath = story.fullPath.replace(params.root, "");
     story.storyRelativePath = storyRelativePath;
@@ -130,7 +131,6 @@ export default function vitebook(cfg: Cfg): Plugin {
       });
       // set host info to config, for transform html
       server.middlewares.use((req, _res, next) => {
-        
         // @ts-ignore
         if (!server.config.___vitebook) {
           // @ts-ignore
@@ -143,23 +143,19 @@ export default function vitebook(cfg: Cfg): Plugin {
       });
     },
     transformIndexHtml(html, ctx) {
-     
       // @ts-ignore
       const host = ctx.server?.config.___vitebook.host;
       const { storyId, isBook } = handleHost(host);
       if (storyId == "" && !isBook) {
-        
         return html;
       } else if (isBook) {
-        
         return generateBookHtml(params.book);
       } else if (storyId != "") {
         if (!params.book[storyId]) {
-          
           return `<div>story book id does not exist ${storyId}, try clear cache</div>`;
         }
-       
-        return params.book[storyId].getHtml();
+
+        return params.book[storyId].getHtml(params.root);
       }
 
       return html;
@@ -191,7 +187,7 @@ export default function vitebook(cfg: Cfg): Plugin {
       return {
         code: params.book[
           queryParams.story_html_script_id as string
-        ].getScriptUseCode(code),
+        ].getScriptUseCode(code, params.root),
       };
     },
   };

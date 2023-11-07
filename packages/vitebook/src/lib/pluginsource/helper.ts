@@ -5,6 +5,7 @@ import hmacSHA512 from "crypto-js/hmac-sha512";
 import { StoryId } from "./types";
 import { Story } from "./story";
 import { fileURLToPath } from "url";
+import { normalizePath } from "vite";
 
 const __dirname = path.dirname(fileURLToPath(new URL(import.meta.url)));
 
@@ -79,4 +80,9 @@ export const generateBookHtml= (book : Record<string, Story>) : string => {
         '<script type="module" src="/@vite/client"></script>'
       );
       return html.replace("--json-base64--", btoa(JSON.stringify(obj)))
+}
+
+export const getRelativePath = (fullPath: string, rootPath: string ) : string => {
+   
+  return normalizePath(fullPath).replace(normalizePath(rootPath), "")
 }
