@@ -50,9 +50,10 @@ http://book.127-0-0-1.nip.io:5173/
 ```
 Example.story.vue
 <!-- should will appear on http://book.127-0-0-1.nip.io:5173/ -->
+<!-- for open component to new window, just rigth click on created story and open -->
 ```
 
-### source code
+### source code and example
 
 ```url
 https://github.com/wildwind123/vitebook
