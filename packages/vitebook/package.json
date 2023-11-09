@@ -8,7 +8,7 @@
     "src/lib"
   ],
   "scripts": {
-    "dev": "vite",
+    "dev": "vite --host",
     "build": "tsc && vite build && cp src/lib/pluginsource/vitebook.d.ts src/lib/plugin",
     "preview": "vite preview"
   },
