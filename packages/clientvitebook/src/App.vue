@@ -21,7 +21,7 @@
                 @click.prevent="selectedStoryIdComputed = story.storyId"
                 :href="getStoryUrl(story.storyId)"
               >
-                <span class="bulma-icon"><i class="fa fa-home"></i></span>
+                <span class="bulma-icon"><i class="fa fa-book"></i></span>
                 {{ getFileName(story.file) }}
               </a>
             </li>
